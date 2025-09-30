@@ -1,0 +1,160 @@
+#!/bin/bash
+# ====================================
+# Histórico limpo, comentado e detalhado
+# Torres Camoes
+# ====================================
+
+# -------------------------------
+# Histórico
+# -------------------------------
+history -r                   # Recarrega o histórico do bash
+history > ~/backup_history.txt  # Salva o histórico atual em arquivo de backup
+
+# -------------------------------
+# Node.js / JSON Server / Express
+# -------------------------------
+npm install                  # Instala dependências do projeto
+npm install jsonwebtoken     # Instala biblioteca para JWT
+npm install json-server --save  # Instala json-server localmente no projeto
+node servidor.js             # Executa o servidor Node.js
+npm run start-auth           # Executa o servidor com script definido no package.json
+npx json-server --watch database.json --https --port 8000 --key server.key --cert server.crt
+                             # Inicia json-server com HTTPS usando certificados
+curl -X POST -H "Content-Type: application/json" -d '{"email":"lcs@alura.com","senha":"123"}' http://localhost:8000/public/login
+                             # Faz requisição POST de login para o servidor
+curl http://localhost:8000    # Faz requisição GET ao servidor local
+curl http://localhost:3000/livros  # Faz requisição GET à rota livros
+sudo lsof -i :8000            # Verifica qual processo está usando a porta 8000
+app.listen(3000, () => console.log('Servidor na porta 3000'));
+                             # Define servidor para ouvir na porta 3000
+
+# -------------------------------
+# OpenSSL / Certificados
+# -------------------------------
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt
+                             # Gera um certificado SSL autoassinado
+openssl x509 -in server.crt -text -noout
+                             # Mostra informações do certificado gerado
+openssl rsa -in server.key -check
+                             # Verifica integridade da chave privada
+
+# -------------------------------
+# Apache / Nginx
+# -------------------------------
+sudo apt update               # Atualiza lista de pacotes
+sudo apt install apache2 -y   # Instala servidor Apache
+sudo service apache2 start    # Inicia Apache
+sudo service apache2 stop     # Para Apache
+sudo systemctl restart apache2  # Reinicia Apache
+sudo systemctl status apache2   # Mostra status do Apache
+sudo apache2ctl configtest      # Testa configuração do Apache
+sudo journalctl -xeu apache2.service  # Mostra logs recentes do Apache
+sudo nano /etc/apache2/sites-available/000-default.conf  # Edita arquivo de configuração
+sudo a2ensite meu-site.conf     # Habilita site virtual
+sudo systemctl reload apache2   # Aplica alterações no Apache
+sudo ss -tulpn | grep 8080      # Verifica processos usando porta 8080
+
+sudo apt install nginx -y       # Instala servidor Nginx
+sudo systemctl start nginx      # Inicia Nginx
+sudo systemctl restart nginx    # Reinicia Nginx
+sudo systemctl status nginx     # Mostra status do Nginx
+
+# -------------------------------
+# PHP / WordPress / MySQL
+# -------------------------------
+sudo apt install php libapache2-mod-php php-mysql -y  # Instala PHP e módulos
+php -v                      # Verifica versão do PHP
+sudo apt install mysql-server -y  # Instala MySQL
+sudo service mysql status        # Checa status do MySQL
+sudo mysql -u root -p            # Acessa MySQL como root
+SHOW DATABASES;                  # Lista bancos de dados
+
+# WordPress
+sudo wget https://wordpress.org/latest.tar.gz  # Baixa WordPress
+sudo tar -xzvf latest.tar.gz                  # Descompacta arquivo
+sudo mv wordpress/* .                         # Move conteúdo para pasta atual
+sudo rm -rf wordpress latest.tar.gz           # Remove arquivos temporários
+sudo cp wp-config-sample.php wp-config.php    # Cria arquivo de configuração
+sudo chown -R www-data:www-data /var/www/html  # Define dono para Apache
+sudo chmod -R 755 /var/www/html               # Ajusta permissões
+sudo service apache2 restart                  # Reinicia Apache para aplicar
+
+# -------------------------------
+# Git
+# -------------------------------
+git init                        # Inicializa repositório Git
+git add .                        # Adiciona todos arquivos ao commit
+git commit -m "Versão inicial do meu site"  # Cria commit inicial
+git remote add origin https://github.com/tluistorres/meu-site.git  # Adiciona remoto
+git branch -M main               # Renomeia branch principal para main
+git push -u origin main          # Envia alterações para o GitHub
+git config --global user.name "Torres Camoes"  # Configura nome global
+git config --global user.email "luistorres090165@gmail.com"  # Configura e-mail global
+git config --global credential.helper store  # Armazena credenciais para push
+
+# -------------------------------
+# Bash / Scripts / Backup
+# -------------------------------
+mkdir -p ~/relatorio && touch ~/relatorio/processos.txt  # Cria diretório e arquivo de logs
+ps aux > ~/relatorio/processos.txt                       # Salva lista de processos
+chmod +x ~/relatorio/primeiro_programa.sh                # Torna script executável
+echo -e '#!/bin/bash\n# Nosso primeiro programa em Shell Script' > ~/relatorio/primeiro_programa.sh
+./relatorio/primeiro_programa.sh                         # Executa script
+echo "Olá, mundo!" >> ~/relatorio/primeiro_programa.sh   # Adiciona linha ao script
+echo 'nome="Torres"' >> ~/relatorio/primeiro_programa.sh
+echo 'echo "Olá, $nome!"' >> ~/relatorio/primeiro_programa.sh
+./relatorio/primeiro_programa.sh                         # Executa script atualizado
+
+mkdir -p /backup
+sudo tar -czf /backup/$(date +%d%m%Y-%H%M)-home.tar.gz -C /home torres_camoes  # Faz backup
+chmod +x backup.sh
+./backup.sh
+
+# -------------------------------
+# Crontab / Cron jobs
+# -------------------------------
+crontab -e                  # Edita crontab do usuário
+crontab -l                  # Lista crontab
+sudo service cron status    # Verifica serviço cron
+grep CRON /var/log/syslog | tail -n 20  # Últimas entradas do cron
+
+# -------------------------------
+# Utilitários / Monitoramento
+# -------------------------------
+htop                          # Monitora processos interativos
+top                           # Monitora processos em tempo real
+ps aux | grep apache2          # Filtra processos Apache
+ps aux | grep mysql            # Filtra processos MySQL
+sudo killall -STOP apache2     # Pausa processos Apache
+sudo killall -CONT apache2     # Retoma processos Apache
+sudo renice -19 <PID>          # Aumenta prioridade de processo
+sudo renice +15 <PID>          # Reduz prioridade de processo
+
+# -------------------------------
+# Sistema / Arquivos / Navegação
+# -------------------------------
+pwd                            # Mostra diretório atual
+whoami                         # Mostra usuário atual
+ls -la                          # Lista arquivos com detalhes
+mkdir ~/arquivos_teste         # Cria diretório
+cd ~/arquivos_teste            # Navega para diretório
+echo "Primeira linha" > myfile.txt  # Cria arquivo com primeira linha
+echo "Segunda linha" >> myfile.txt  # Adiciona segunda linha
+cat myfile.txt                 # Mostra conteúdo do arquivo
+wc -l myfile.txt               # Conta linhas do arquivo
+nano myfile.txt                # Edita arquivo com nano
+less myfile.txt                # Visualiza arquivo com menos
+mv ~/arquivos_teste ~/exemplos_praticos  # Renomeia diretório
+cd ~/exemplos_praticos/
+cat exemplos_praticos.txt      # Mostra conteúdo de arquivo
+
+# -------------------------------
+# Rede / Diagnóstico
+# -------------------------------
+hostname                       # Mostra nome do host
+hostname -I                     # Mostra IP do host
+ip a                            # Mostra interfaces de rede
+ip a | grep inet                # Filtra endereços IP
+ping google.com                 # Testa conexão com Google
+
+
