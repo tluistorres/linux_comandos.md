@@ -158,3 +158,234 @@ ip a | grep inet                # Filtra endereços IP
 ping google.com                 # Testa conexão com Google
 
 
+## Guia Completo: Acessar, Editar e Sincronizar Arquivos do GitHub no Linux
+## Parte 1: Preparação do Ambiente (Primeira Vez ou Novo Projeto)
+
+Escolha um diretório para seus projetos:
+É uma boa prática ter uma pasta central para seus repositórios.
+code Bash
+
+mkdir ~/Projetos_GitHub  # Cria a pasta 'Projetos_GitHub' no seu diretório home
+cd ~/Projetos_GitHub     # Navega para a nova pasta
+
+  
+
+## Clone o repositório do GitHub:
+## Substitua tluistorres/linux_comandos.md pelo seu usuário/nome do repositório.
+
+    
+
+git clone https://github.com/tluistorres/linux_comandos.md.git
+
+# Este comando baixa todo o conteúdo do repositório para uma pasta local
+# (neste caso, 'linux_comandos.md') dentro do seu diretório atual.
+
+  
+
+Entre no diretório do repositório clonado:
+Você SEMPRE deve estar dentro do diretório do seu repositório para executar comandos Git.
+code Bash
+
+    
+
+cd linux_comandos.md
+
+  
+
+## Crie e ative um Ambiente Virtual Python (venv) - ESSENCIAL para projetos Python e notebooks:
+## Isso isola as dependências do seu projeto. Se você já fez isso, pode pular para a ativação.
+
+    
+
+# (Opcional, se 'python3.12-venv' não estiver instalado)
+# sudo apt update && sudo apt install python3.12-venv -y
+
+python3 -m venv venv  # Cria um ambiente virtual chamado 'venv'
+source venv/bin/activate # Ativa o ambiente virtual. Seu prompt mudará para (venv)
+
+  
+
+## Instale as ferramentas necessárias no seu ambiente virtual:
+
+JupyterLab (para editar .ipynb interativamente no navegador):
+
+   
+
+pip install jupyterlab
+
+  
+
+Kivy (se o seu app.py usar Kivy):
+
+    
+
+pip install kivy
+
+  
+
+Requests (para o app.py que busca dados de API):
+code Bash
+
+    
+
+pip install requests
+
+  
+
+Instale o VS Code (se ainda não o fez):
+
+            
+
+sudo snap install code --classic
+
+ # Isso instala o VS Code via Snap com permissões ampliadas.
+
+          
+
+## Parte 2: Editando Arquivos e Sincronizando com o GitHub
+
+Assuma que você está dentro do diretório do seu projeto (~/Projetos_GitHub/linux_comandos.md) e com o ambiente virtual ativado ((venv) no seu prompt).
+
+## 2.1. Editando arquivos de Texto Simples (.txt, .md, .py)
+
+Você pode usar nano (terminal) ou VS Code (gráfico) para esses arquivos.
+
+Opção A: Usando nano (simples e rápido no terminal)
+
+##  Abra o arquivo para edição:
+
+        
+
+ nano comandos_usados.txt # Ou app.py, README.md
+
+      
+
+## Faça suas edições.
+
+Salve as alterações: Pressione Ctrl + O, depois Enter.
+
+Saia do nano: Pressione Ctrl + X.
+
+## Opção B: Usando VS Code (poderoso, com realce de sintaxe)
+
+Abra o VS Code no diretório atual:
+
+        
+
+code .
+
+## Isso abre o VS Code com a pasta do seu projeto.
+
+      
+
+No VS Code: No painel "Explorer" à esquerda, clique no arquivo que deseja editar (ex: comandos_usados.txt, app.py).
+
+Faça suas edições. O VS Code salva automaticamente ou você pode usar Ctrl + S.
+
+Feche o VS Code quando terminar, ou deixe-o aberto para outras edições.
+
+## 2.2. Editando Jupyter Notebooks (.ipynb) - Onde o "código entre textos" some!
+
+Opção A: Usando JupyterLab (Recomendado para notebooks no navegador)
+
+Inicie o JupyterLab no seu terminal (com venv ativo):
+
+      
+
+jupyter lab
+
+  
+
+## Isso abrirá uma nova aba no seu navegador web padrão.
+
+      
+
+Na interface web do JupyterLab:
+
+Navegue e clique no arquivo .ipynb que deseja editar (ex: Comandos_linux.ipynb).
+
+Edite as células de código e Markdown de forma interativa.
+
+Salve suas alterações (ícone de disquete ou Ctrl + S dentro do navegador).
+
+Quando terminar: Feche a aba do navegador. No terminal onde você iniciou o jupyter lab, pressione Ctrl + C duas vezes para parar o servidor.
+
+## Opção B: Usando VS Code (Alternativa para notebooks, sem precisar do navegador externo)
+
+Abra o VS Code no diretório atual:
+
+        
+
+code .
+
+      
+
+No VS Code: Certifique-se de ter as extensões Python e Jupyter instaladas (vá para o ícone de Extensões na barra lateral e pesquise/instale).
+
+Abra o arquivo .ipynb: No painel "Explorer", clique no notebook (ex: Numpy_fundamentos.ipynb). O VS Code o abrirá em um visualizador/editor de notebooks interativo.
+
+Importante: No canto inferior direito do VS Code, clique no interpretador Python e selecione o interpretador do seu ambiente (venv) para que o notebook use as bibliotecas corretas.
+
+Faça suas edições e execute as células.
+
+Salve suas alterações (Ctrl + S).
+
+## 2.3. Sincronizando as Edições com o GitHub (O CICLO GIT)
+
+Depois de editar e salvar seus arquivos (usando nano, VS Code ou JupyterLab), você precisa usar o Git para enviar essas mudanças para o GitHub.
+
+Verifique o status das suas alterações:
+
+   
+
+git status
+
+# Este comando mostra quais arquivos foram modificados (em vermelho)
+# e quais estão prontos para serem adicionados (em verde).
+
+  
+
+Adicione as alterações ao "staging area":
+Isso informa ao Git quais arquivos você quer incluir na próxima "commit".
+
+    
+
+git add .
+
+# O '.' adiciona todos os arquivos modificados e novos no diretório atual e subdiretórios.
+# Você pode adicionar arquivos específicos também: git add Comandos_linux.ipynb
+
+  
+
+Confirme o status novamente (opcional, para ver se estão em verde):
+
+    
+
+git status
+
+  
+
+Commite as alterações (salve no histórico local do Git):
+Cada commit deve ter uma mensagem descritiva do que foi alterado.
+
+    
+
+git commit -m "Atualizei o notebook de comandos Linux e corrigi o app.py"
+
+## Substitua a mensagem por algo que descreva suas edições.
+
+  
+
+Envie as alterações para o GitHub (o repositório remoto):
+
+        
+
+git push origin main
+
+# 'origin' se refere ao seu repositório no GitHub.
+# 'main' é o nome da sua branch principal (pode ser 'master' em repositórios antigos).
+# O Git pode pedir seu nome de usuário e senha/token de acesso pessoal do GitHub aqui.
+
+      
+
+Parabéns! Você tem agora o conhecimento e os comandos para gerenciar seus projetos do GitHub no Linux, editar diversos tipos de arquivos (incluindo .ipynb de forma correta) e manter tudo sincronizado.
